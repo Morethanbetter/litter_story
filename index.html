@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美好与美满的勇敢之旅 - 故事播放</title>
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://s2.ssl.qhres2.com/static/56662140ef7d5d03.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary-dark: #1E2A4A;
+            --primary-light: #3A4E7A;
+            --accent: #FF7D3D;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --bg-light: #F5F7FA;
+            --bg-white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            font-size: 28px;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .nav a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .nav a:hover {
+            color: var(--accent);
+        }
+        
+        .content {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .player-section {
+            flex: 1;
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .player-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-dark), var(--accent));
+        }
+        
+        .story-cover {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .story-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .story-cover .title {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+        
+        .story-cover .title h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .story-cover .title p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .audio-player {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .main-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 8px rgba(255, 125, 61, 0.3);
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(255, 125, 61, 0.4);
+        }
+        
+        .play-btn i {
+            font-size: 20px;
+        }
+        
+        .secondary-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .control-btn:hover {
+            color: var(--accent);
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: #e0e0e0;
+            border-radius: 2px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s;
+        }
+        
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .story-content {
+            flex: 1;
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+        
+        .story-content h3 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .story-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+        
+        .story-text p {
+            margin-bottom: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .story-cover {
+                height: 200px;
+            }
+            
+            .story-cover .title h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+                <h1>云音乐故事</h1>
+            </div>
+            <nav class="nav">
+                <a href="#"><i class="fas fa-home"></i> 首页</a>
+                <a href="#"><i class="fas fa-headphones"></i> 发现</a>
+                <a href="#"><i class="fas fa-book"></i> 故事集</a>
+                <a href="#"><i class="fas fa-user"></i> 我的</a>
+            </nav>
+        </header>
+        
+        <div class="content">
+            <section class="player-section">
+                <div class="story-cover">
+                    <div class="title">
+                        <h2>美好与美满的勇敢之旅</h2>
+                        <p>一段关于勇气与成长的温暖故事</p>
+                    </div>
+                </div>
+                
+                <div class="audio-player">
+                    <div class="player-controls">
+                        <div class="main-controls">
+                            <div class="play-btn" id="playBtn">
+                                <i class="fas fa-play" id="playIcon"></i>
+                            </div>
+                        </div>
+                        <div class="secondary-controls">
+                            <div class="control-btn" title="喜欢">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="control-btn" title="分享">
+                                <i class="fas fa-share-alt"></i>
+                            </div>
+                            <div class="control-btn" title="下载">
+                                <i class="fas fa-download"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container" id="progressContainer">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    
+                    <div class="time-info">
+                        <span id="currentTime">00:00</span>
+                        <span id="duration">00:00</span>
+                    </div>
+                    
+                    <audio id="audioPlayer" src="https://qncdn.n.cn/so/upfile/24ae32d68907e0c5627ac00ae8944e8a.mp3"></audio>
+                </div>
+                
+                <h3>故事简介</h3>
+                <p>《美好与美满的勇敢之旅》讲述了一对好朋友在面临生活挑战时，如何通过勇气和智慧找到幸福的故事。这是一个温暖人心、充满正能量的成长故事。</p>
+            </section>
+            
+            <section class="story-content">
+                <h3>故事正文</h3>
+                <div class="story-text">
+                    <p>在一个阳光明媚的早晨，美好和美满足手牵着手走在乡间的小路上。她们是最好的朋友，虽然性格迥异，但却形影不离。</p>
+                    
+                    <p>美好是个活泼开朗的女孩，总是充满好奇心，喜欢探索未知的世界。而美满则更加稳重内敛，善于思考和分析。她们互补的性格让她们的友谊更加牢固。</p>
+                    
+                    <p>这一天，她们决定去探索村子后面的神秘森林。老人们常说那里住着神奇的生物，但很少有人敢进去。美好对这个传说充满了向往，而美满则有些担忧。</p>
+                    
+                    <p>"我们真的要去吗？听说那里很危险。"美满皱着眉头说。</p>
+                    
+                    <p>"别担心！"美好拍拍她的肩膀，"只要我们在一起，就没有什么可怕的。而且，说不定我们能发现什么宝藏呢！"</p>
+                    
+                    <p>就这样，两个女孩鼓起勇气，踏入了那片神秘的森林。阳光透过茂密的树叶，在地上投下斑驳的光影。森林里安静得出奇，只有她们的脚步声和偶尔的鸟鸣。</p>
+                    
+                    <p>走着走着，她们突然发现了一条被藤蔓覆盖的小径。美好兴奋地跑过去，想要拨开藤蔓看看后面有什么。就在这时，一个奇怪的声音从树丛中传来...</p>
+                    
+                    <p>（故事内容继续...）</p>
+                    
+                    <p>当她们终于走出森林时，夕阳已经染红了半边天空。两个女孩相视一笑，她们知道，今天的冒险让她们的友谊更加深厚，也让她们学会了面对恐惧的勇气。</p>
+                    
+                    <p>"明天我们还来吗？"美好眨着眼睛问。</p>
+                    
+                    <p>美满微笑着点点头："当然，只要我们在一起。"</p>
+                    
+                    <p>夕阳下，两个小小的身影手拉着手，踏上了回家的路。她们的勇敢之旅才刚刚开始，而前方，还有无数美好的冒险在等待着她们...</p>
+                </div>
+            </section>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 云音乐故事 - 用心讲述每一个故事</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 初始化粒子动画
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // 音频播放器功能
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        
+        // 播放/暂停
+        playBtn.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            } else {
+                audioPlayer.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
+        });
+        
+        // 更新进度条
+        audioPlayer.addEventListener('timeupdate', () => {
+            const currentTime = audioPlayer.currentTime;
+            const duration = audioPlayer.duration;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            
+            // 更新时间显示
+            currentTimeEl.textContent = formatTime(currentTime);
+            if (duration) {
+                durationEl.textContent = formatTime(duration);
+            }
+        });
+        
+        // 点击进度条跳转
+        progressContainer.addEventListener('click', (e) => {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audioPlayer.duration;
+            audioPlayer.currentTime = (clickX / width) * duration;
+        });
+        
+        // 音频播放结束
+        audioPlayer.addEventListener('ended', () => {
+            playIcon.classList.remove('fa-pause');
+            playIcon.classList.add('fa-play');
+            progressBar.style.width = '0%';
+            currentTimeEl.textContent = '00:00';
+        });
+        
+        // 格式化时间显示
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // 页面加载完成后显示音频时长
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(audioPlayer.duration);
+        });
+    </script>
+</body>
+</html>
